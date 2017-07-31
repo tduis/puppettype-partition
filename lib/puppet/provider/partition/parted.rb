@@ -30,7 +30,7 @@ Puppet::Type.type(:partition).provide(:parted) do
     partition= resource[:name]
     device=partition[0,(partition.length-1)]
     partition_nr=partition.slice(partition.length - 1)
-    case partition_nr
+    case partition_nr.to_i
       when 1 then 
         part_type='primary'
         $1
@@ -50,8 +50,9 @@ Puppet::Type.type(:partition).provide(:parted) do
         part_type='logical'
         $1
       else
-        part_type='onbekend'
-        $1
+        raise Puppet::Error, "Puppet roulette failed, no catalog for you!"
+        #part_type='onbekend'
+        #$1
     end
   end
 
